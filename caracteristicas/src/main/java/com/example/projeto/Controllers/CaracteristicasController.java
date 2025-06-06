@@ -17,35 +17,38 @@ public class CaracteristicasController {
     public String calcularFilho(CaracteristicasRequest request, Model model) {
         Cabelo.Caracteristicas cabeloPai = new Cabelo.Caracteristicas(
                 Cabelo.Cor.valueOf(request.getCorCabeloPai()),
-                Cabelo.Tipo.valueOf(request.getTipoCabeloPai()));
+                Cabelo.Tipo.valueOf(request.getTipoCabeloPai())
+        );
 
         Cabelo.Caracteristicas cabeloMae = new Cabelo.Caracteristicas(
                 Cabelo.Cor.valueOf(request.getCorCabeloMae()),
-                Cabelo.Tipo.valueOf(request.getTipoCabeloMae()));
+                Cabelo.Tipo.valueOf(request.getTipoCabeloMae())
+        );
 
         Cabelo.Caracteristicas cabeloFilho = Cabelo.Caracteristicas.combinar(cabeloPai, cabeloMae);
 
         Olho.Cor olhoFilho = Olho.Cor.combinar(
                 Olho.Cor.valueOf(request.getCorOlhoPai()),
-                Olho.Cor.valueOf(request.getCorOlhoMae()));
+                Olho.Cor.valueOf(request.getCorOlhoMae())
+        );
 
         Pele.Cor peleFilho = Pele.Cor.combinar(
                 Pele.Cor.valueOf(request.getCorPelePai()),
-                Pele.Cor.valueOf(request.getCorPeleMae()));
+                Pele.Cor.valueOf(request.getCorPeleMae())
+        );
 
         double alturaFilho = (request.getAlturaPai() + request.getAlturaMae()) / 2;
 
-        String[] partesCabelo = cabeloFilho.toString().split("\\+ ");
-
         FilhoResponse resultado = new FilhoResponse(
-                partesCabelo[0].trim(),
-                partesCabelo[1].trim(),
+                cabeloFilho.getCor().toString(),
+                cabeloFilho.getTipo().toString(),
                 olhoFilho.toString(),
                 peleFilho.toString(),
-                alturaFilho);
+                alturaFilho
+        );
 
         model.addAttribute("resultado", resultado);
 
-        return "resultado";
+        return "index";
     }
 }

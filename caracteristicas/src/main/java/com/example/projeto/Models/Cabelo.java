@@ -44,8 +44,8 @@ public class Cabelo {
     }
 
     public static class Caracteristicas {
-        private Cor cor;
-        private Tipo tipo;
+        Cor cor;
+        Tipo tipo;
 
         public Caracteristicas(Cor cor, Tipo tipo) {
             this.cor = cor;
@@ -56,6 +56,14 @@ public class Cabelo {
             Cor corFinal = Cor.combinar(cabelo1.cor, cabelo2.cor);
             Tipo tipoFinal = Tipo.combinar(cabelo1.tipo, cabelo2.tipo);
             return new Caracteristicas(corFinal, tipoFinal);
+        }
+
+        public Cor getCor() {
+            return cor;
+        }
+
+        public Tipo getTipo() {
+            return tipo;
         }
 
         @Override

@@ -9,7 +9,7 @@
 <body>
   <h1>Características do Filho</h1>
 
-  <form id="formCaracteristicas">
+  <form th:action="@{/calcular}" method="post">
     <h2>Pai</h2>
     <label>Cor do cabelo:
       <select name="corCabeloPai" required>
@@ -99,42 +99,14 @@
   </form>
 
   <h2>Resultado:</h2>
-  <pre id="resultado"></pre>
-
-  <script>
-    const form = document.getElementById('formCaracteristicas');
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      // Pega os dados do form e monta o JSON
-      const formData = new FormData(form);
-      const dados = {};
-      formData.forEach((value, key) => {
-        dados[key] = value;
-      });
-
-      // Faz requisição POST pro backend
-      try {
-        const res = await fetch('/calcular', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(dados),
-        });
-
-        const text = await res.text();
-        try {
-          const json = JSON.parse(text);
-          document.getElementById('resultado').textContent = JSON.stringify(json, null, 2);
-        } catch (e) {
-          // Se não for JSON válido, mostra texto bruto
-          document.getElementById('resultado').textContent = text;
-        }
-      } catch (err) {
-        document.getElementById('resultado').textContent = 'Erro na requisição: ' + err;
-      }
-    });
-  </script>
+  <div th:if="${resultado != null}">
+    <p><strong>Cor do Cabelo:</strong> <span th:text="${resultado.corCabelo}"></span></p>
+    <p><strong>Tipo de Cabelo:</strong> <span th:text="${resultado.tipoCabelo}"></span></p>
+    <p><strong>Cor dos Olhos:</strong> <span th:text="${resultado.corOlho}"></span></p>
+    <p><strong>Cor da Pele:</strong> <span th:text="${resultado.corPele}"></span></p>
+    <p><strong>Altura Estimada:</strong> <span
+        th:text="${#numbers.formatDecimal(resultado.altura, 1, 'POINT', 2, 'COMMA')}"></span> m</p>
+  </div>
 
 </body>
 
